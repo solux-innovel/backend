@@ -24,5 +24,6 @@ public class Post extends BaseEntity {
 
     private String thumbnail;
 
+    @Enumerated(EnumType.STRING)
     private Genre genre;
 }
