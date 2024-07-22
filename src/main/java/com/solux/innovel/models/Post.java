@@ -1,11 +1,12 @@
 package com.solux.innovel.models;
 
+import com.solux.innovel.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
 @Getter
-public class Post {
+public class Post extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "post_id")
