@@ -46,4 +46,9 @@ public class JwtTokenProvider {
             return e.getClaims();
         }
     }
+
+    public Long extractUserId(String accessToken) {
+        String subject = extractSubject(accessToken);
+        return Long.parseLong(subject);
+    }
 }

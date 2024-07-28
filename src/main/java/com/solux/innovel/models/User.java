@@ -49,7 +49,7 @@ public class User {
         this.username = username;
     }
 
-    public void updatePassword(String profile) {
+    public void updateProfile(String profile) {
         this.profile = profile;
     }
 }

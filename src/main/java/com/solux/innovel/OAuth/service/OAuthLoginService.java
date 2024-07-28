@@ -31,9 +31,14 @@ public class OAuthLoginService {
     }
 
     private Long newMember(OAuthInfoResponse oAuthInfoResponse) {
+        String username = oAuthInfoResponse.getUsername();
+        if (userRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("Nickname already exists");
+        }
+
         log.info("Creating new user with email: {} and username: {}", oAuthInfoResponse.getEmail(), oAuthInfoResponse.getUsername());
         User user = User.builder()
-                .email(oAuthInfoResponse.getEmail() != null ? oAuthInfoResponse.getEmail() : "no-email@domain.com")
+                .email(oAuthInfoResponse.getEmail() != null ? oAuthInfoResponse.getEmail() : oAuthInfoResponse.getUsername() + "@kakao.com")
                 .username(oAuthInfoResponse.getUsername())
                 .oAuthProvider(oAuthInfoResponse.getOAuthProvider())
                 .build();
