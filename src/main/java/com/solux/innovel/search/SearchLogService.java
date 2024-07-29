@@ -2,7 +2,7 @@ package com.solux.innovel.search;
 
 import java.util.List;
 import com.solux.innovel.models.User;
-import com.solux.innovel.user.UserRepository;
+import com.solux.innovel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
