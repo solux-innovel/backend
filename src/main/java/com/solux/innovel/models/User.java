@@ -22,11 +22,14 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
+
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "username", unique = true, nullable = false)
-    private String username;
+    @Column(name = "social_id", unique = true, nullable = false)
+    private String socialId;
 
     @Column(name = "profile")
     private String profile;
@@ -35,14 +38,12 @@ public class User {
     @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 
-    private OAuthProvider oAuthProvider;
-
     @Builder
-    public User(String email, String username, String profile, String socialId, OAuthProvider oAuthProvider) {
+    public User(String email, String username, String profile, String socialId) {
         this.email = email;
         this.username = username;
         this.profile = profile;
-        this.oAuthProvider = oAuthProvider;
+        this.socialId = socialId;
     }
 
     public void updateUsername(String username) {
