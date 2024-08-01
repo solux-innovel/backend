@@ -12,12 +12,24 @@ public class MyPostController {
     private final MyPostService myPostService;
     private final JwtTokenProvider jwtTokenProvider;
 
+//    @GetMapping
+//    public MyPostResponseDTO getMyPosts(@RequestParam(defaultValue = "0") int page,
+//                                        @RequestParam(defaultValue = "10") int size,
+//                                        @RequestHeader("Authorization") String token) {
+//        String accessToken = token.substring(7);
+//        Long userId = jwtTokenProvider.extractUserId(accessToken);
+//        return myPostService.getMyPosts(userId, page, size);
+//    }
+//}
+
     @GetMapping
-    public MyPostResponseDTO getMyPosts(@RequestParam(defaultValue = "0") int page,
-                                        @RequestParam(defaultValue = "10") int size,
-                                        @RequestHeader("Authorization") String token) {
-        String accessToken = token.substring(7);
-        Long userId = jwtTokenProvider.extractUserId(accessToken);
+    public MyPostResponseDTO getMyPosts(@RequestParam(defaultValue = "0") int page, // 첫 번째 페이지 인덱스를 0
+                                        @RequestParam(defaultValue = "12") int size // 3행4열
+                                        //@RequestHeader("Authorization") String token
+    ) {
+        //String accessToken = token.substring(7);
+        //Long userId = jwtTokenProvider.extractUserId(accessToken);
+        Long userId = 1L; // 테스트용 고정 사용자 ID
         return myPostService.getMyPosts(userId, page, size);
     }
 }
