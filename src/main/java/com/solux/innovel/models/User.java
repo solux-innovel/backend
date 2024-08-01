@@ -35,7 +35,9 @@ public class User {
     @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 
-    private OAuthProvider oAuthProvider;
+    @Enumerated(EnumType.STRING) // 문자열로 저장되도록 함.
+    @Column(name = "o_auth_provider")
+    private OAuthProvider oAuthProvider; // 이 코드만 있을 시 db에서 자동으로 int로 받게 됨.
 
     @Builder
     public User(String email, String username, String profile, String socialId, OAuthProvider oAuthProvider) {
