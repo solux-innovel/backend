@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,12 +21,12 @@ public class PostController {
     private final PostService postService;
     private final RecentPostService recentPostService;
 
-    @RequestMapping(value = "/innovel/posts/new")
+    @RequestMapping(value = "/innovel/posts/new", method = RequestMethod.POST)
     public ResponseEntity<Page<Post>> showPostsByGenre(@RequestParam("page") int page, @RequestParam("genre") String genre) {
         return ResponseEntity.ok(postService.getPostsByGenre(page, genre));
     }
 
-    @RequestMapping(value = "/innovel/posts/recent-read/list")
+    @RequestMapping(value = "/innovel/posts/recent-read/list", method = RequestMethod.GET)
     public ResponseEntity<List<Post>> getRecentPosts(HttpServletRequest request) {
         try {
             return new ResponseEntity<>(recentPostService.getRecentPostsFromCookie(request), HttpStatus.OK);
@@ -34,7 +35,7 @@ public class PostController {
         }
     }
 
-    @RequestMapping(value = "/innovel/posts/recent-read/add")
+    @RequestMapping(value = "/innovel/posts/recent-read/add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addRecentPost(@RequestParam("postId") Long postId, HttpServletRequest request, HttpServletResponse response) {
         try {
             recentPostService.saveRecentPostToCookie(postId, response, request);
@@ -46,4 +47,8 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/innovel/posts/search", method = RequestMethod.GET)
+    public ResponseEntity<Page<Post>> getResultOfPostSearch(@RequestParam("title") String title,  @RequestParam("page") int page) {
+        return ResponseEntity.ok(postService.getPostsByTitle(title, page));
+    }
 }
