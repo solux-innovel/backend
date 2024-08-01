@@ -1,4 +1,4 @@
-package com.solux.innovel.search;
+package com.solux.innovel.searchlog;
 
 import java.util.List;
 import com.solux.innovel.models.User;

@@ -11,4 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select p from Post p where p.genre = :genre")
     Page<Post> findPostsByGenre(String genre, Pageable pageable);
+
+    @Query("select p from Post p where p.title = :title")
+    Page<Post> findPostsByTitle(String title, Pageable pageable);
 }

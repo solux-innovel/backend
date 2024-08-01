@@ -20,4 +20,10 @@ public class PostService {
         Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
         return postRepository.findPostsByGenre(genre, pageable);
     }
+
+    @Transactional(readOnly = true)
+    public Page<Post> getPostsByTitle(String title, int page) {
+        Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
+        return postRepository.findPostsByTitle(title, pageable);
+    }
 }

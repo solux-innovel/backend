@@ -1,6 +1,6 @@
 package com.solux.innovel.config;
 
-import com.solux.innovel.search.SearchLog;
+import com.solux.innovel.searchlog.SearchLog;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
