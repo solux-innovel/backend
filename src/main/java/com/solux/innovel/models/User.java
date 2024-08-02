@@ -22,10 +22,10 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", unique = false, nullable = false)
     private String username;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", unique = false, nullable = false)
     private String email;
 
     @Column(name = "social_id", unique = true, nullable = false)

@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +26,7 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostsByGenre(page, genre));
     }
 
-    @RequestMapping(value = "/innovel/posts/recent-read/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/innovel/posts/recent-read/list")
     public ResponseEntity<List<Post>> getRecentPosts(HttpServletRequest request) {
         try {
             return new ResponseEntity<>(recentPostService.getRecentPostsFromCookie(request), HttpStatus.OK);
@@ -35,7 +35,7 @@ public class PostController {
         }
     }
 
-    @RequestMapping(value = "/innovel/posts/recent-read/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/innovel/posts/recent-read/add")
     public ResponseEntity<HttpStatus> addRecentPost(@RequestParam("postId") Long postId, HttpServletRequest request, HttpServletResponse response) {
         try {
             recentPostService.saveRecentPostToCookie(postId, response, request);
@@ -46,4 +46,19 @@ public class PostController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    // 마이페이지 - 내가 창작한 소설 내에서, 소설 썸네일 클릭 시 나오는 화면
+    // 내의 "삭제"와 "수정" 기능 수행 시 -> db 업데이트
+    @RequestMapping(value = "/innovel/posts/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/innovel/posts/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post postDetails) {
+        Post updatedPost = postService.updatePost(id, postDetails);
+        return ResponseEntity.ok(updatedPost);
+    }
+
 }
