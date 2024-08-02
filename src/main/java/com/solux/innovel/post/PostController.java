@@ -4,6 +4,7 @@ import com.solux.innovel.models.Post;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class PostController {
     private final PostService postService;
     private final RecentPostService recentPostService;
@@ -47,18 +49,29 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
     // 마이페이지 - 내가 창작한 소설 내에서, 소설 썸네일 클릭 시 나오는 화면
     // 내의 "삭제"와 "수정" 기능 수행 시 -> db 업데이트
-    @RequestMapping(value = "/innovel/posts/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/innovel/mypage/mypost/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deletePost(@PathVariable Long id) {
         postService.deletePost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @RequestMapping(value = "/innovel/posts/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/innovel/mypage/mypost/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post postDetails) {
         Post updatedPost = postService.updatePost(id, postDetails);
         return ResponseEntity.ok(updatedPost);
     }
 
+    @GetMapping("/innovel/posts/{id}")
+    public ResponseEntity<Post> getPost(@PathVariable("id") Long id) {
+        Post post = postService.getPostById(id);
+        if (post != null) {
+            log.info("Post with ID {} found and returned successfully.", id);
+            return ResponseEntity.ok(post);
+        } else {
+            log.info("Post with ID {} not found.", id);
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

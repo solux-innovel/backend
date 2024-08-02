@@ -28,7 +28,6 @@ public class MyPostResponseDTO {
     public static class PostDTO {
         private Long id;
         private String title;
-        private String summary;
         private String thumbnail;
         private String genre;
         private LocalDateTime createdAt;
@@ -36,7 +35,6 @@ public class MyPostResponseDTO {
         public PostDTO(Post post) {
             this.id = post.getId();
             this.title = post.getTitle();
-            this.summary = post.getSummary();
             this.thumbnail = post.getThumbnail();
             this.genre = post.getGenre().toString();
             this.createdAt = post.getCreatedAt();

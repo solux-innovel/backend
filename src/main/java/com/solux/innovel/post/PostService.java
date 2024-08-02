@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -19,6 +21,11 @@ public class PostService {
     public Page<Post> getPostsByGenre(int page, String genre) {
         Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
         return postRepository.findPostsByGenre(genre, pageable);
+    }
+
+    public Post getPostById(Long id) {
+        Optional<Post> post = postRepository.findById(id);
+        return post.orElse(null); // 반환할 수 있는 null 체크 또는 예외 처리 추가
     }
 
     @Transactional
