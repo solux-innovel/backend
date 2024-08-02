@@ -20,7 +20,7 @@ public class PostService {
         Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
         return postRepository.findPostsByGenre(genre, pageable);
     }
-<<<<<<< HEAD
+
     @Transactional
     public void deletePost(Long id) {
         Post post = postRepository.findById(id)
@@ -37,6 +37,4 @@ public class PostService {
 
         return postRepository.save(post);
     }
-=======
->>>>>>> a220d2d2b3f2ea4a411039cb2903c940d9ffc7b9
 }
