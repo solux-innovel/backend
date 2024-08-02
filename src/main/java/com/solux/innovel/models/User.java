@@ -45,12 +45,4 @@ public class User {
         this.profile = profile;
         this.socialId = socialId;
     }
-
-    public void updateUsername(String username) {
-        this.username = username;
-    }
-
-    public void updateProfile(String profile) {
-        this.profile = profile;
-    }
 }
