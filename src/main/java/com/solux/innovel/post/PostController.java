@@ -21,7 +21,7 @@ public class PostController {
     private final PostService postService;
     private final RecentPostService recentPostService;
 
-    @RequestMapping(value = "/innovel/posts/new", method = RequestMethod.POST)
+    @RequestMapping(value = "/innovel/posts/genre", method = RequestMethod.POST)
     public ResponseEntity<Page<Post>> showPostsByGenre(@RequestParam("page") int page, @RequestParam("genre") String genre) {
         return ResponseEntity.ok(postService.getPostsByGenre(page, genre));
     }
