@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/posts")
+@RequestMapping("/innovel/posts")
 public class PDBCheckController {
     private final PostRepository postRepository;
 
