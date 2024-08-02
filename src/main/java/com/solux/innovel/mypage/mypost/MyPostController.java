@@ -18,8 +18,7 @@ public class MyPostController {
     public ResponseEntity<?> getMyPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size,
-            @RequestHeader(value = "X-Social-Id", required = false) String socialId) {
-
+            @RequestParam(required = true) String socialId) {
         try {
             Long userId;
 
