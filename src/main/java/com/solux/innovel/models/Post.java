@@ -27,4 +27,12 @@ public class Post extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Genre genre;
+
+    public void updatePost(Post postDetails) {
+        this.title = postDetails.getTitle();
+        this.content = postDetails.getContent();
+        this.summary = postDetails.getSummary();
+        this.thumbnail = postDetails.getThumbnail();
+        this.genre = postDetails.getGenre();
+    }
 }

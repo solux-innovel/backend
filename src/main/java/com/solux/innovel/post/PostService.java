@@ -20,10 +20,20 @@ public class PostService {
         Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
         return postRepository.findPostsByGenre(genre, pageable);
     }
+    @Transactional
+    public void deletePost(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found with id: " + id));
+        postRepository.delete(post);
+    }
 
-    @Transactional(readOnly = true)
-    public Page<Post> getPostsByTitle(String title, int page) {
-        Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
-        return postRepository.findPostsByTitle(title, pageable);
+    @Transactional
+    public Post updatePost(Long id, Post postDetails) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found with id: " + id));
+
+        post.updatePost(postDetails);
+
+        return postRepository.save(post);
     }
 }
