@@ -46,9 +46,4 @@ public class PostController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @RequestMapping(value = "/innovel/posts/search", method = RequestMethod.GET)
-    public ResponseEntity<Page<Post>> getResultOfPostSearch(@RequestParam("title") String title,  @RequestParam("page") int page) {
-        return ResponseEntity.ok(postService.getPostsByTitle(title, page));
-    }
 }
