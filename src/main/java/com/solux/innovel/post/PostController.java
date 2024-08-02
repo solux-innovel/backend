@@ -46,6 +46,7 @@ public class PostController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+<<<<<<< HEAD
 
     // 마이페이지 - 내가 창작한 소설 내에서, 소설 썸네일 클릭 시 나오는 화면
     // 내의 "삭제"와 "수정" 기능 수행 시 -> db 업데이트
@@ -61,4 +62,6 @@ public class PostController {
         return ResponseEntity.ok(updatedPost);
     }
 
+=======
+>>>>>>> a220d2d2b3f2ea4a411039cb2903c940d9ffc7b9
 }
