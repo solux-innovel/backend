@@ -49,13 +49,12 @@ public class PostController {
 
     // 마이페이지 - 내가 창작한 소설 내에서, 소설 썸네일 클릭 시 나오는 화면
     // 내의 "삭제"와 "수정" 기능 수행 시 -> db 업데이트
-    @RequestMapping(value = "/innovel/posts/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/innovel/mypage/mypost/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deletePost(@PathVariable Long id) {
         postService.deletePost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @RequestMapping(value = "/innovel/posts/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/innovel/mypage/mypost/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post postDetails) {
         Post updatedPost = postService.updatePost(id, postDetails);
         return ResponseEntity.ok(updatedPost);
