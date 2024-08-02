@@ -24,6 +24,6 @@ public class SearchService {
 
     public Page<User> getUsersByUsername(String username, int page) {
         Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
-        return userRepository.findUsersContainingUsername(username, pageable);
+        return userRepository.findByUsernameContaining(username, pageable);
     }
 }
