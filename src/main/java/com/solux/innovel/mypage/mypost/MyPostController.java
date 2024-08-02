@@ -1,32 +1,47 @@
 package com.solux.innovel.mypage.mypost;
 
 import com.solux.innovel.mypage.mypost.dto.MyPostResponseDTO;
+import com.solux.innovel.repository.UserRepository;
+import com.solux.innovel.models.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+//@RestController
+//@RequiredArgsConstructor
+//@RequestMapping("/innovel/mypage/mypost")
+//public class MyPostController {
+//    private final MyPostService myPostService;
+//    private final UserRepository userRepository;
+//
+//    @GetMapping
+//    public ResponseEntity<MyPostResponseDTO> getMyPosts(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "12") int size,
+//            @RequestHeader("X-Social-Id") String socialId) {
+//
+//        User user = userRepository.findBySocialId(socialId)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        MyPostResponseDTO response = myPostService.getMyPosts(user.getId(), page, size);
+//        return ResponseEntity.ok(response);
+//    }
+//}
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/innovel/mypage/mypost")
 public class MyPostController {
     private final MyPostService myPostService;
-//    @GetMapping
-//    public MyPostResponseDTO getMyPosts(@RequestParam(defaultValue = "0") int page,
-//                                        @RequestParam(defaultValue = "10") int size,
-//                                        @RequestHeader("Authorization") String token) {
-//        String accessToken = token.substring(7);
-//        Long userId = jwtTokenProvider.extractUserId(accessToken);
-//        return myPostService.getMyPosts(userId, page, size);
-//    }
-//}
+    private final UserRepository userRepository;
 
     @GetMapping
-    public MyPostResponseDTO getMyPosts(@RequestParam(defaultValue = "0") int page, // 첫 번째 페이지 인덱스를 0
-                                        @RequestParam(defaultValue = "12") int size //
-                                        //@RequestHeader("Authorization") String token
-    ) {
-        //String accessToken = token.substring(7);
-        //Long userId = jwtTokenProvider.extractUserId(accessToken);
-        Long userId = 1L; // 테스트용 고정 사용자 ID
-        return myPostService.getMyPosts(userId, page, size);
+    public ResponseEntity<MyPostResponseDTO> getMyPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int size) {
+        // 테스트를 위해 userId를 1로 고정
+        Long userId = 1L;
+        MyPostResponseDTO response = myPostService.getMyPosts(userId, page, size);
+        return ResponseEntity.ok(response);
     }
 }

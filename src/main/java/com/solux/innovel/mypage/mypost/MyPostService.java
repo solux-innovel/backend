@@ -16,8 +16,8 @@ public class MyPostService {
     private final MyPostRepository myPostRepository;
 
     @Transactional(readOnly = true)
-    public MyPostResponseDTO getMyPosts(Long userId, int page, int size) {
-        Page<Post> postPage = myPostRepository.findByWriterId(userId,
+    public MyPostResponseDTO getMyPosts(Long user_id, int page, int size) {
+        Page<Post> postPage = myPostRepository.findByWriterId(user_id,
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
 
         return new MyPostResponseDTO(postPage);
