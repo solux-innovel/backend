@@ -25,6 +25,8 @@ public class Post extends BaseEntity {
 
     private String title;
 
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     private String summary;
