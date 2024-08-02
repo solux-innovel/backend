@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/innovel/users")
 public class UserDBCheckController {
     private final UserRepository userRepository;
 
