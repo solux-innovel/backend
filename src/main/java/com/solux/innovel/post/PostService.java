@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +17,11 @@ import java.util.Optional;
 @Transactional
 public class PostService {
     private final PostRepository postRepository;
+
+    @Transactional(readOnly = true)
+    public List<Post> findAll() {
+        return postRepository.findAll();
+    }
 
     @Transactional(readOnly = true)
     public Page<Post> getPostsByGenre(int page, String genre) {
