@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/innovel")
 public class PostController {
     private final PostService postService;
     private final RecentPostService recentPostService;
