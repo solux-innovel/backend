@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PostSaveDTO {
-    private Long userId;
+    private String socialId;
     private String title;
     private String genre;
     private String content;

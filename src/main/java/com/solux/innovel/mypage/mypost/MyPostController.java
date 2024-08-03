@@ -16,9 +16,9 @@ public class MyPostController {
 
     @GetMapping
     public ResponseEntity<?> getMyPosts(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size,
-            @RequestParam(required = true) String socialId) {
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "12") int size,
+            @RequestParam(name = "socialId", required = true) String socialId) {
         try {
             Long userId;
 
