@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,9 +24,27 @@ public class PostController {
     private final PostService postService;
     private final RecentPostService recentPostService;
 
+    @RequestMapping(value = "/innovel/main", method = RequestMethod.GET)
+    public ResponseEntity<List<List<Post>>> mainPage(HttpServletRequest request) {
+        try {
+            List<List<Post>> response = new ArrayList<>();
+            response.add(recentPostService.getRecentPostsFromCookie(request).subList(0, 4));
+            response.add(postService.findAll().subList(0, 4));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(value = "/innovel/posts/genre", method = RequestMethod.POST)
     public ResponseEntity<Page<Post>> showPostsByGenre(@RequestParam("page") int page, @RequestParam("genre") String genre) {
         return ResponseEntity.ok(postService.getPostsByGenre(page, genre));
+    }
+
+    @RequestMapping(value = "/innovel/posts/all/list/{page}")
+    public ResponseEntity<Page<Post>> showAllPosts(@PathVariable int page) {
+        Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
+        return ResponseEntity.ok(new PageImpl<>(postService.findAll(), pageable, postService.findAll().size()));
     }
 
     @RequestMapping(value = "/innovel/posts/recent-read/list")
