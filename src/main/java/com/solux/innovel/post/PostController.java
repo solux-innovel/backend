@@ -19,7 +19,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/innovel")
 public class PostController {
     private final PostService postService;
     private final RecentPostService recentPostService;
@@ -54,13 +53,16 @@ public class PostController {
     // 마이페이지 - 내가 창작한 소설 내에서, 소설 썸네일 클릭 시 나오는 화면
     // 내의 "삭제"와 "수정" 기능 수행 시 -> db 업데이트
     @RequestMapping(value = "/innovel/mypage/mypost/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deletePost(@PathVariable Long id) {
+    public ResponseEntity<?> deletePost(@PathVariable("id")  Long id) {
         postService.deletePost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @RequestMapping(value = "/innovel/mypage/mypost/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post postDetails) {
-        Post updatedPost = postService.updatePost(id, postDetails);
+    public ResponseEntity<Post> updatePost(@PathVariable("id") Long id, @RequestBody PostUpdateDTO postupdateDTO) {
+        Post post = new Post();
+        post.setTitle(postupdateDTO.getTitle());
+        post.setContent(postupdateDTO.getContent());
+        Post updatedPost = postService.updatePost(id, post);
         return ResponseEntity.ok(updatedPost);
     }
 
