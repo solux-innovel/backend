@@ -22,6 +22,8 @@ public class SearchController {
     private final SearchService searchService;
     private final SearchLogService searchLogService;
 
+
+
     @RequestMapping(value = "/innovel/search/posts", method = RequestMethod.GET)
     public ResponseEntity<?> getResultOfPostSearch(
             @RequestParam("title") String title,
