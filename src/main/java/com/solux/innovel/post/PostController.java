@@ -28,8 +28,23 @@ public class PostController {
     public ResponseEntity<List<List<Post>>> mainPage(HttpServletRequest request) {
         try {
             List<List<Post>> response = new ArrayList<>();
-            response.add(recentPostService.getRecentPostsFromCookie(request).subList(0, 4));
-            response.add(postService.findAll().subList(0, 4));
+
+            List<Post> recentPosts = recentPostService.getRecentPostsFromCookie(request);
+            List<Post> allPosts = postService.findAll();
+
+            // 최근 읽은 게시물 리스트 처리
+            if (recentPosts.size() >= 4) {
+                response.add(recentPosts.subList(0, 4));
+            } else {
+                response.add(recentPosts);
+            }
+
+            // 모든 게시물 리스트 처리
+            if (allPosts.size() >= 4) {
+                response.add(allPosts.subList(0, 4));
+            } else {
+                response.add(allPosts);
+            }
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IOException e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
