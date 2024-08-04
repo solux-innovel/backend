@@ -39,10 +39,22 @@ public class SearchController {
         }
     }
 
+
     @RequestMapping(value = "/innovel/search/users", method = RequestMethod.GET)
-    public ResponseEntity<Page<User>> getResultOfUserSearch(@RequestParam("username") String username, @RequestParam("page") int page) {
-        return ResponseEntity.ok(searchService.getUsersByUsername(username, page));
+    public ResponseEntity<?> getResultOfUserSearch(
+            @RequestParam("username") String username,
+            @RequestParam(value = "page", defaultValue = "0") int page) {
+        try {
+            Page<User> result = searchService.getUsersByUsername(username, page);
+            if (result.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("An error occurred: " + e.getMessage());
+        }
     }
+
 
     @RequestMapping(value = "/innovel/search", method = RequestMethod.GET)
     public ResponseEntity<List<SearchLog>> getSearchLogs(@RequestParam("id") String socialId) {
