@@ -21,3 +21,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p FROM Post p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :title, '%'))")
     Page<Post> findByTitleCustom(@Param("title") String title, Pageable pageable);
 }
+
