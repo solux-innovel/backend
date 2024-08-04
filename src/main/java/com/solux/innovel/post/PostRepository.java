@@ -15,4 +15,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findPostsByGenre(@Param("genre") Genre genre, Pageable pageable);
 
     Page<Post> findPostsByTitle(String title, Pageable pageable);
+
+    Page<Post> findByTitleContainingIgnoreCase(String title, Pageable pageable);
+
+    @Query("SELECT p FROM Post p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :title, '%'))")
+    Page<Post> findByTitleCustom(@Param("title") String title, Pageable pageable);
 }
+
