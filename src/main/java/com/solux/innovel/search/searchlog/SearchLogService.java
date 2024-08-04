@@ -15,8 +15,8 @@ public class SearchLogService {
     private final RedisTemplate<String, SearchLog> redisTemplate;
     private final UserRepository userRepository;
 
-    public void saveRecentSearchLog(Long userId, SearchLogRequest request) {
-        User user = userRepository.findById(userId)
+    public void saveRecentSearchLogBySocialId(String socialId, SearchLogRequest request) {
+        User user = userRepository.findBySocialId(socialId)
                 .orElseThrow(() -> new RuntimeException("User Not Found"));
 
         String now = LocalDateTime.now().toString();
@@ -35,8 +35,8 @@ public class SearchLogService {
         redisTemplate.opsForList().leftPush(key, value);
     }
 
-    public List<SearchLog> findRecentSearchLogs(Long userId) {
-        User user = userRepository.findById(userId)
+    public List<SearchLog> findRecentSearchLogsBySocialId(String socialId) {
+        User user = userRepository.findBySocialId(socialId)
                 .orElseThrow(() -> new RuntimeException("User Not Found"));
 
         String key = "SearchLog" + user.getId();

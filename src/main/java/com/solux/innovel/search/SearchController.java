@@ -23,8 +23,12 @@ public class SearchController {
     private final SearchLogService searchLogService;
 
     @RequestMapping(value = "/innovel/search/posts", method = RequestMethod.GET)
-    public ResponseEntity<Page<Post>> getResultOfPostSearch(@RequestParam("id") Long userId, @RequestParam("title") String title, @RequestParam("page") int page, SearchLogRequest request) {
-        searchLogService.saveRecentSearchLog(userId, request);
+    public ResponseEntity<Page<Post>> getResultOfPostSearch(@RequestParam("id") String socialId, @RequestParam("title") String title, @RequestParam("page") int page) {
+        // Create a SearchLogRequest manually
+        SearchLogRequest request = new SearchLogRequest();
+        request.setName(title);
+        // Save recent search log
+        searchLogService.saveRecentSearchLogBySocialId(socialId, request);
         return ResponseEntity.ok(searchService.getPostsByTitle(title, page));
     }
 
@@ -34,7 +38,8 @@ public class SearchController {
     }
 
     @RequestMapping(value = "/innovel/search", method = RequestMethod.GET)
-    public ResponseEntity<List<SearchLog>> getSearchLogs(@RequestParam("id") Long userId) {
-        return ResponseEntity.ok(searchLogService.findRecentSearchLogs(userId));
+    public ResponseEntity<List<SearchLog>> getSearchLogs(@RequestParam("id") String socialId) {
+        return ResponseEntity.ok(searchLogService.findRecentSearchLogsBySocialId(socialId));
     }
 }
+
