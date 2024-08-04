@@ -19,9 +19,9 @@ public class SearchService {
 
     public Page<Post> getPostsByTitle(String title, int page) {
         Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
-        System.out.println("Searching posts with title: " + title);
-        Page<Post> result = postRepository.findPostsByTitle(title, pageable);
-        System.out.println("Number of posts found: " + result.getTotalElements());
+        System.out.println("Searching for title: " + title);
+        Page<Post> result = postRepository.findByTitleContainingIgnoreCase(title, pageable);
+        System.out.println("Found " + result.getTotalElements() + " posts");
         return result;
     }
 
