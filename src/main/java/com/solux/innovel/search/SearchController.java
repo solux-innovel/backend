@@ -3,9 +3,7 @@ package com.solux.innovel.search;
 import com.solux.innovel.models.Post;
 import com.solux.innovel.models.User;
 import com.solux.innovel.search.searchlog.SearchLog;
-import com.solux.innovel.search.searchlog.SearchLogRequest;
 import com.solux.innovel.search.searchlog.SearchLogService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +19,6 @@ import java.util.List;
 public class SearchController {
     private final SearchService searchService;
     private final SearchLogService searchLogService;
-
-
 
     @RequestMapping(value = "/innovel/search/posts", method = RequestMethod.GET)
     public ResponseEntity<?> getResultOfPostSearch(
