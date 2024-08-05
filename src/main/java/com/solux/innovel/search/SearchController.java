@@ -22,8 +22,10 @@ public class SearchController {
 
     @RequestMapping(value = "/innovel/search/posts", method = RequestMethod.GET)
     public ResponseEntity<?> getResultOfPostSearch(
+            @RequestParam("id") String socialId,
             @RequestParam("title") String title,
             @RequestParam(value = "page", defaultValue = "0") int page) {
+        searchLogService.saveRecentSearchLogBySocialId(socialId, title);
         try {
             Page<Post> result = searchService.getPostsByTitle(title, page);
             if(result.isEmpty()) {
@@ -38,8 +40,10 @@ public class SearchController {
 
     @RequestMapping(value = "/innovel/search/users", method = RequestMethod.GET)
     public ResponseEntity<?> getResultOfUserSearch(
+            @RequestParam("id") String socialId,
             @RequestParam("username") String username,
             @RequestParam(value = "page", defaultValue = "0") int page) {
+        searchLogService.saveRecentSearchLogBySocialId(socialId, username);
         try {
             Page<User> result = searchService.getUsersByUsername(username, page);
             if (result.isEmpty()) {
