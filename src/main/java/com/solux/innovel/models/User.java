@@ -2,6 +2,7 @@
 package com.solux.innovel.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.solux.innovel.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,7 @@
 package com.solux.innovel.post;
 
 import com.solux.innovel.models.Post;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -52,35 +53,57 @@ public class PostController {
     }
 
     @RequestMapping(value = "/innovel/posts/genre", method = RequestMethod.POST)
-    public ResponseEntity<Page<Post>> showPostsByGenre(@RequestParam("page") int page, @RequestParam("genre") String genre) {
-        return ResponseEntity.ok(postService.getPostsByGenre(page, genre));
+    public ResponseEntity<Page<Post>> showPostsByGenre(@RequestParam(value="page", defaultValue = "0") int page, @RequestParam("genre") String genre) {
+        try {
+            Page<Post> posts = postService.getPostsByGenre(page, genre);
+            if (posts == null || posts.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
+            return ResponseEntity.ok(posts);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @RequestMapping(value = "/innovel/posts/all/list/{page}")
-    public ResponseEntity<Page<Post>> showAllPosts(@PathVariable int page) {
-        Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
-        return ResponseEntity.ok(new PageImpl<>(postService.findAll(), pageable, postService.findAll().size()));
+    public ResponseEntity<Page<Post>> showAllPosts(@PathVariable("page") int page) {
+        try {
+            List<Post> allPosts = postService.findAll();
+            if (allPosts == null || allPosts.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
+            Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
+            Page<Post> pagePosts = new PageImpl<>(allPosts, pageable, allPosts.size());
+            return ResponseEntity.ok(pagePosts);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @RequestMapping(value = "/innovel/posts/recent-read/list")
     public ResponseEntity<List<Post>> getRecentPosts(HttpServletRequest request) {
         try {
-            return new ResponseEntity<>(recentPostService.getRecentPostsFromCookie(request), HttpStatus.OK);
+            List<Post> recentPosts = recentPostService.getRecentPostsFromCookie(request);
+            if (recentPosts.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(recentPosts);
         } catch (IOException e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    @RequestMapping(value = "/innovel/posts/recent-read/add")
+
+    @RequestMapping(value = "/innovel/posts/recent-read/add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addRecentPost(@RequestParam("postId") Long postId, HttpServletRequest request, HttpServletResponse response) {
         try {
             recentPostService.saveRecentPostToCookie(postId, response, request);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException e1) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (RuntimeException e2) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
