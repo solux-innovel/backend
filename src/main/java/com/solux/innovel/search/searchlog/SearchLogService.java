@@ -15,14 +15,14 @@ public class SearchLogService {
     private final RedisTemplate<String, SearchLog> redisTemplate;
     private final UserRepository userRepository;
 
-    public void saveRecentSearchLog(Long userId, SearchLogRequest request) {
+    public void saveRecentSearchLog(Long userId, String searchKeyword) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User Not Found"));
 
         String now = LocalDateTime.now().toString();
         String key = "SearchLog" + user.getId();
         SearchLog value = SearchLog.builder()
-                .name(request.getName())
+                .name(searchKeyword)
                 .createdAt(now)
                 .build();
 
