@@ -20,6 +20,7 @@ public class SearchController {
     private final SearchService searchService;
     private final SearchLogService searchLogService;
 
+    @RequestMapping(value = "/innovel/search/posts")
     public ResponseEntity<Page<Post>> getResultOfPostSearch(@RequestParam("id") Long userId, @RequestParam("title") String title, @RequestParam("page") int page) {
         searchLogService.saveRecentSearchLog(userId, title);
         return ResponseEntity.ok(searchService.getPostsByTitle(title, page));
