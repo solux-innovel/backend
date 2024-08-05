@@ -37,7 +37,5 @@ public class Post extends BaseEntity {
     public void updatePost(Post postDetails) {
         this.title = postDetails.getTitle();
         this.content = postDetails.getContent();
-        this.thumbnail = postDetails.getThumbnail();
-        this.genre = postDetails.getGenre();
     }
 }

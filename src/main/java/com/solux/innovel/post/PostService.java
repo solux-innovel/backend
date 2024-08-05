@@ -1,7 +1,9 @@
 package com.solux.innovel.post;
 
+import com.solux.innovel.models.Genre;
 import com.solux.innovel.models.Post;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +26,16 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Post> getPostsByGenre(int page, String genre) {
+    public Page<Post> getPostsByGenre(int page, String genreStr) {
+        // String을 Genre enum으로 변환
+        Genre genre;
+        try {
+            genre = Genre.valueOf(genreStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            // 유효하지 않은 장르 문자열일 경우 예외 처리 또는 기본 장르 설정
+            throw new RuntimeException("Invalid genre: " + genreStr);
+        }
+
         Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
         return postRepository.findPostsByGenre(genre, pageable);
     }

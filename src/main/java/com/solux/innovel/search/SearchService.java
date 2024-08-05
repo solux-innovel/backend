@@ -19,11 +19,17 @@ public class SearchService {
 
     public Page<Post> getPostsByTitle(String title, int page) {
         Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
-        return postRepository.findPostsByTitle(title, pageable);
+        System.out.println("Searching for title: " + title);
+        Page<Post> result = postRepository.findByTitleContainingIgnoreCase(title, pageable);
+        System.out.println("Found " + result.getTotalElements() + " posts");
+        return result;
     }
 
     public Page<User> getUsersByUsername(String username, int page) {
-        Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt")));
-        return userRepository.findByUsernameContaining(username, pageable);
+        Pageable pageable = PageRequest.of(page, 20, Sort.by(Sort.Order.asc("username")));
+        System.out.println("Searching users with username: " + username);
+        Page<User> result = userRepository.findByUsernameContaining(username, pageable);
+        System.out.println("Number of users found: " + result.getTotalElements());
+        return result;
     }
 }

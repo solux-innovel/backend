@@ -2,6 +2,7 @@ package com.solux.innovel.userLogin;
 
 import com.solux.innovel.models.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/innovel/users")
+@Slf4j
 public class UserLoginController {
     private final UserLoginService userloginService;
 

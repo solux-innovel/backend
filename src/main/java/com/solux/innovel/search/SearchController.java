@@ -20,20 +20,41 @@ public class SearchController {
     private final SearchService searchService;
     private final SearchLogService searchLogService;
 
-    @RequestMapping(value = "/innovel/search/posts")
-    public ResponseEntity<Page<Post>> getResultOfPostSearch(@RequestParam("id") Long userId, @RequestParam("title") String title, @RequestParam("page") int page) {
-        searchLogService.saveRecentSearchLog(userId, title);
-        return ResponseEntity.ok(searchService.getPostsByTitle(title, page));
+    @RequestMapping(value = "/innovel/search/posts", method = RequestMethod.GET)
+    public ResponseEntity<?> getResultOfPostSearch(
+            @RequestParam("title") String title,
+            @RequestParam(value = "page", defaultValue = "0") int page) {
+        try {
+            Page<Post> result = searchService.getPostsByTitle(title, page);
+            if(result.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("An error occurred: " + e.getMessage());
+        }
     }
+
 
     @RequestMapping(value = "/innovel/search/users", method = RequestMethod.GET)
-    public ResponseEntity<Page<User>> getResultOfUserSearch(@RequestParam("id") Long userId, @RequestParam("username") String username, @RequestParam("page") int page) {
-        searchLogService.saveRecentSearchLog(userId, username);
-        return ResponseEntity.ok(searchService.getUsersByUsername(username, page));
+    public ResponseEntity<?> getResultOfUserSearch(
+            @RequestParam("username") String username,
+            @RequestParam(value = "page", defaultValue = "0") int page) {
+        try {
+            Page<User> result = searchService.getUsersByUsername(username, page);
+            if (result.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("An error occurred: " + e.getMessage());
+        }
     }
 
+
     @RequestMapping(value = "/innovel/search", method = RequestMethod.GET)
-    public ResponseEntity<List<SearchLog>> getSearchLogs(@RequestParam("id") Long userId) {
-        return ResponseEntity.ok(searchLogService.findRecentSearchLogs(userId));
+    public ResponseEntity<List<SearchLog>> getSearchLogs(@RequestParam("id") String socialId) {
+        return ResponseEntity.ok(searchLogService.findRecentSearchLogsBySocialId(socialId));
     }
 }
+
